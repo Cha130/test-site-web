@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Container Area</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+
+    <section id="login-screen" class="flex-center">
+        <div class="login-box fade-in">
+            <header class="login-header">
+                <p class="welcome-text">Bienvenue sur</p>
+                <h1>Smart Containers Area</h1>
+            </header>
+            
+            <form id="login-form">
+                <div class="input-group">
+                    <input type="text" id="username" placeholder="Identifiant (Admin ou Résident)" required>
+                    <input type="password" id="password" placeholder="Mot de passe" required>
+                </div>
+
+                <div class="login-options">
+                    <label class="remember-me">
+                        <input type="checkbox" id="remember"> Se souvenir de moi
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-login">Se connecter</button>
+            </form>
+
+            <footer class="login-footer">
+                <a href="#" class="android-link">
+                    <span>Disponible sur application Android</span>
+                </a>
+                <div class="support-contact">
+                    <p>En cas de problème, contactez : <a href="mailto:contact.smartcontainer@gmail.com">contact.smartcontainer@gmail.com</a></p>
+                </div>
+            </footer>
+        </div>
+    </section>
+
+    <section id="app-screen" class="hidden">
+        <aside id="sidebar">
+            <div class="profile-section">
+                <div class="avatar"></div>
+                <h2 id="user-tag">Utilisateur</h2>
+            </div>
+            <nav id="menu-nav">
+                </nav>
+            <button onclick="logout()" class="logout-btn">Déconnexion</button>
+        </aside>
+
+        <main id="content-display">
+            <h1 id="page-title">Tableau de bord</h1>
+            <div id="view-container">
+                </div>
+        </main>
+    </section>
+
+    <script src="main.js"></script>
+</body>
+</html>

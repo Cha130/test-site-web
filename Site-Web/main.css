@@ -1,0 +1,68 @@
+:root {
+    --main-green: #2ecc71;
+    --dark-blue: #2c3e50;
+    --soft-white: #f8f9fa;
+    --accent-blue: #3d5afe;
+}
+
+body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #eef2f3; overflow: hidden; }
+.hidden { display: none !important; }
+.flex-center { display: flex; justify-content: center; align-items: center; height: 100vh; }
+
+/* ANIMATIONS KEYFRAMES */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInLeft {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+}
+
+.fade-in { animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+
+/* LOGIN BOX */
+.login-box { 
+    background: white; padding: 40px; border-radius: 20px; 
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 380px; text-align: center; 
+}
+
+.welcome-text { color: var(--main-green); font-weight: bold; letter-spacing: 1px; margin-bottom: 5px; }
+
+input { 
+    width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; 
+    border-radius: 8px; box-sizing: border-box; outline: none; transition: 0.3s;
+}
+input:focus { border-color: var(--main-green); box-shadow: 0 0 8px rgba(46, 204, 113, 0.2); }
+
+button { 
+    width: 100%; padding: 12px; background: var(--main-green); color: white; 
+    border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s;
+}
+button:hover { background: #27ae60; transform: scale(1.02); }
+
+/* APP LAYOUT */
+#app-screen { display: flex; height: 100vh; }
+
+#sidebar { 
+    width: 280px; background: var(--dark-blue); color: white; 
+    padding: 30px 20px; animation: slideInLeft 0.5s ease;
+}
+
+#menu-nav div { 
+    padding: 15px; margin-bottom: 10px; border-radius: 10px; 
+    cursor: pointer; transition: 0.3s; border-left: 4px solid transparent;
+}
+#menu-nav div:hover { background: rgba(255,255,255,0.1); border-left-color: var(--main-green); padding-left: 25px; }
+
+#content-display { flex: 1; padding: 40px; background: var(--soft-white); overflow-y: auto; }
+
+/* ELEMENTS SPECIFIQUES */
+.card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+
+.android-link { 
+    display: inline-block; margin-top: 20px; padding: 10px; 
+    background: rgba(61, 90, 254, 0.1); border-radius: 30px; 
+    text-decoration: none; color: var(--accent-blue); font-size: 0.8rem;
+}
