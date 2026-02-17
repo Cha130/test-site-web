@@ -4,99 +4,143 @@ const menuNav = document.getElementById('menu-nav');
 const appScreen = document.getElementById('app-screen');
 const loginScreen = document.getElementById('login-screen');
 
-// GESTION CONNEXION
+// --- CONNEXION ---
+
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const user = document.getElementById('username').value.toLowerCase();
-    
-    loginScreen.classList.add('hidden');
-    appScreen.classList.remove('hidden');
+    const userVal = document.getElementById('username').value.toLowerCase();
+    const passVal = document.getElementById('password').value;
 
-    if (user === 'admin' || user === 'gardien') {
-        setupGardien();
+    // 1. Identification Admin / Gardien
+    if ((userVal === 'admin' || userVal === 'gardien') && passVal === 'admin123') {
+        enterApp('admin');
+        return;
+    }
+
+    // 2. Identification Résidents (données créées par l'admin)
+    const users = JSON.parse(localStorage.getItem('smart_users')) || [];
+    const user = users.find(u => u.id.toLowerCase() === userVal && u.pass === passVal);
+
+    if (user) {
+        enterApp('resident', user.id);
     } else {
-        setupResident();
+        alert("Identifiants incorrects ou compte non autorisé.");
     }
 });
 
+function enterApp(role, userId = "") {
+    loginScreen.classList.add('hidden');
+    appScreen.classList.remove('hidden');
+    
+    if (role === 'admin') {
+        setupGardien();
+    } else {
+        setupResident(userId);
+    }
+}
+
+// --- LOGIQUE ADMIN (Création de comptes) ---
+
+function addResident() {
+    const id = prompt("Identifiant du résident (ex: appartement102) :");
+    if (!id) return;
+    const pass = prompt("Définir son mot de passe :");
+    if (!pass) return;
+
+    let users = JSON.parse(localStorage.getItem('smart_users')) || [];
+    users.push({ id, pass });
+    localStorage.setItem('smart_users', JSON.stringify(users));
+    
+    alert("Compte résident activé !");
+    show('users'); // Actualise la liste
+}
+
+function deleteUser(index) {
+    if(confirm("Supprimer l'accès de ce résident ?")) {
+        let users = JSON.parse(localStorage.getItem('smart_users')) || [];
+        users.splice(index, 1);
+        localStorage.setItem('smart_users', JSON.stringify(users));
+        show('users');
+    }
+}
+
+// --- INTERFACES ---
+
 function setupGardien() {
-    document.getElementById('user-tag').innerText = "👨‍✈️ Gardien (Admin)";
+    document.getElementById('user-tag').innerText = "👨‍✈️ Admin Gardien";
     menuNav.innerHTML = `
         <div onclick="show('bacs')">📊 État des Bacs</div>
-        <div onclick="show('notifs')">🔔 Notifications</div>
-        <div onclick="show('chat')">💬 Messages</div>
         <div onclick="show('users')">👥 Gestion Résidents</div>
-        <div onclick="show('hist-all')">📜 Historique Global</div>
-        <div onclick="show('ads-admin')">📢 Publier Annonce</div>
+        <div onclick="show('ads')">📢 Publier Annonce</div>
     `;
     show('bacs');
 }
 
-function setupResident() {
-    document.getElementById('user-tag').innerText = "🏠 Résident";
+function setupResident(userId) {
+    document.getElementById('user-tag').innerText = `🏠 Résident : ${userId}`;
     menuNav.innerHTML = `
-        <div onclick="show('tuto')">🏠 Accueil (Tuto)</div>
+        <div onclick="show('tuto')">📖 Mode d'emploi</div>
         <div onclick="show('my-hist')">📉 Mon Historique</div>
-        <div onclick="show('chat')">💬 Message Gardien</div>
-        <div onclick="show('ads-view')">📢 Annonces</div>
+        <div onclick="show('chat')">💬 Contacter Admin</div>
     `;
     show('tuto');
 }
 
-// FONCTION D'AFFICHAGE AVEC ANIMATION
+// --- SYSTÈME D'ONGLETS ---
+
 function show(page) {
     let html = "";
-    // On retire l'animation pour la relancer
     viewContainer.classList.remove('fade-in');
-    void viewContainer.offsetWidth; // Force le refresh du navigateur
+    void viewContainer.offsetWidth; // Reset animation
 
     switch(page) {
-        case 'tuto':
-            html = `<div class="card"><h2>Comment ça marche ?</h2>
-                    <p>🔵 <b>Étape 1 :</b> Badgez sur le lecteur NFC.</p>
-                    <p>🔵 <b>Étape 2 :</b> Présentez votre déchet à la caméra.</p>
-                    <p>🔵 <b>Étape 3 :</b> Déposez dans le bac qui s'ouvre.</p></div>`;
-            break;
         case 'bacs':
-            html = `<h2>État des poubelles</h2>
+            html = `<h2>Suivi des conteneurs</h2>
                     <div class="card">
-                        <p>🟡 Plastique : <b>82%</b></p>
-                        <p>🔵 Papier : <b>45%</b></p>
-                        <p>🟢 Verre : <b>10%</b></p>
+                        <div class="bin-container">
+                            <span>🟡 Plastique : 82%</span>
+                            <div class="progress-bar"><div class="progress-fill" style="width:82%; background:#f1c40f"></div></div>
+                        </div>
+                        <div class="bin-container">
+                            <span>🔵 Papier : 45%</span>
+                            <div class="progress-bar"><div class="progress-fill" style="width:45%; background:#3498db"></div></div>
+                        </div>
                     </div>`;
             break;
+
         case 'users':
-            html = `<h2>Gestion des comptes</h2>
+            const users = JSON.parse(localStorage.getItem('smart_users')) || [];
+            html = `<h2>Gestion des Accès</h2>
                     <div class="card">
-                        <button onclick="alert('Formulaire de création')">+ Créer un Résident</button>
-                        <hr>
-                        <p>Liste des résidents : 15 actifs</p>
-                    </div>`;
-            break;
-        case 'hist-all':
-            html = `<h2>Historique Global</h2>
-                    <div class="card">
-                        <table>
-                            <tr><th>Heure</th><th>Foyer</th><th>Nom</th><th>Déchet</th></tr>
-                            <tr><td>14:32</td><td>Foyer 05</td><td>Lucas</td><td>Plastique</td></tr>
+                        <button onclick="addResident()" style="margin-bottom:15px;">+ Créer un nouveau compte</button>
+                        <table style="width:100%; text-align:left; border-collapse:collapse;">
+                            <tr style="border-bottom:1px solid #ddd;"><th>Identifiant</th><th>Action</th></tr>
+                            ${users.map((u, i) => `
+                                <tr>
+                                    <td style="padding:10px 0;">${u.id}</td>
+                                    <td><button onclick="deleteUser(${i})" style="background:#e74c3c; width:auto; padding:5px 10px;">Révoquer</button></td>
+                                </tr>`).join('')}
                         </table>
+                        ${users.length === 0 ? "<p>Aucun résident créé.</p>" : ""}
                     </div>`;
             break;
-        case 'ads-admin':
-            html = `<h2>Envoyer une annonce</h2>
+
+        case 'tuto':
+            html = `<h2>Bienvenue dans votre espace</h2>
                     <div class="card">
-                        <textarea placeholder="Message aux résidents..." style="width:100%; height:100px;"></textarea>
-                        <button style="margin-top:10px">Diffuser l'annonce</button>
+                        <h3>Comment utiliser le bac intelligent ?</h3>
+                        <p>1. Approchez votre badge du lecteur.</p>
+                        <p>2. Le bac correspondant s'ouvrira automatiquement.</p>
+                        <p>3. En cas de blocage, contactez l'admin via l'onglet Contact.</p>
                     </div>`;
             break;
+
         default:
-            html = `<div class="card">Section en cours de développement...</div>`;
+            html = `<div class="card">Cette section est en cours de configuration.</div>`;
     }
 
     viewContainer.innerHTML = html;
     viewContainer.classList.add('fade-in');
 }
 
-function logout() {
-    location.reload();
-}
+function logout() { location.reload(); }

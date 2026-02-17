@@ -11,33 +11,37 @@
     <section id="login-screen" class="flex-center">
         <div class="login-box fade-in">
             <header class="login-header">
-                <p class="welcome-text">Bienvenue sur</p>
+                <p class="welcome-text">Espace Sécurisé</p>
                 <h1>Smart Containers Area</h1>
             </header>
             
             <form id="login-form">
                 <div class="input-group">
-                    <input type="text" id="username" placeholder="Identifiant (Admin ou Résident)" required>
+                    <input type="text" id="username" placeholder="Identifiant (donné par l'admin)" required>
                     <input type="password" id="password" placeholder="Mot de passe" required>
                 </div>
 
                 <div class="login-options">
-                    <label class="remember-me">
-                        <input type="checkbox" id="remember"> Se souvenir de moi
-                    </label>
-                </div>
+    <label class="remember-me">
+        <input type="checkbox" id="remember"> 
+        <span>Se souvenir de moi</span>
+    </label>
+</div>
 
                 <button type="submit" class="btn-login">Se connecter</button>
             </form>
 
             <footer class="login-footer">
-                <a href="#" class="android-link">
-                    <span>Disponible sur application Android</span>
-                </a>
-                <div class="support-contact">
-                    <p>En cas de problème, contactez : <a href="mailto:contact.smartcontainer@gmail.com">contact.smartcontainer@gmail.com</a></p>
-                </div>
-            </footer>
+    <a href="#" class="android-badge">
+        <span class="bot-emoji">🤖</span>
+        <span class="badge-text"><b>Disponible sur application Android</b></span>
+    </a>
+
+    <div class="support-contact">
+        <p>En cas de problème, contactez :</p>
+        <a href="mailto:contact.smartcontainer@gmail.com" class="email-link">contact.smartcontainer@gmail.com</a>
+    </div>
+</footer>
         </div>
     </section>
 
