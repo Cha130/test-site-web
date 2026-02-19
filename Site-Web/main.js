@@ -4,8 +4,17 @@ const menuNav = document.getElementById('menu-nav');
 const appScreen = document.getElementById('app-screen');
 const loginScreen = document.getElementById('login-screen');
 
-// --- CONNEXION ---
+// === AJOUT AUTOMATIQUE DE RÉSIDENTS TEST ===
+// On place ce bloc juste après la déclaration des constantes
+if (!localStorage.getItem('smart_users')) {
+    const testResidents = [
+        { id: 'appart101', pass: '1234' },
+        { id: 'appart102', pass: 'abcd' }
+    ];
+    localStorage.setItem('smart_users', JSON.stringify(testResidents));
+}
 
+// --- CONNEXION ---
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const userVal = document.getElementById('username').value.toLowerCase();
@@ -17,7 +26,7 @@ loginForm.addEventListener('submit', (e) => {
         return;
     }
 
-    // 2. Identification Résidents (données créées par l'admin)
+    // 2. Identification Résidents
     const users = JSON.parse(localStorage.getItem('smart_users')) || [];
     const user = users.find(u => u.id.toLowerCase() === userVal && u.pass === passVal);
 
@@ -40,7 +49,6 @@ function enterApp(role, userId = "") {
 }
 
 // --- LOGIQUE ADMIN (Création de comptes) ---
-
 function addResident() {
     const id = prompt("Identifiant du résident (ex: appartement102) :");
     if (!id) return;
@@ -65,7 +73,6 @@ function deleteUser(index) {
 }
 
 // --- INTERFACES ---
-
 function setupGardien() {
     document.getElementById('user-tag').innerText = "👨‍✈️ Admin Gardien";
     menuNav.innerHTML = `
@@ -87,7 +94,6 @@ function setupResident(userId) {
 }
 
 // --- SYSTÈME D'ONGLETS ---
-
 function show(page) {
     let html = "";
     viewContainer.classList.remove('fade-in');
