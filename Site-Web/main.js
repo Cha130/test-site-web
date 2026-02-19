@@ -132,14 +132,16 @@ function show(page) {
             break;
 
         case 'tuto':
-            html = `<h2>Bienvenue dans votre espace</h2>
-                    <div class="card">
-                        <h3>Comment utiliser le bac intelligent ?</h3>
-                        <p>1. Approchez votre badge du lecteur.</p>
-                        <p>2. Le bac correspondant s'ouvrira automatiquement.</p>
-                        <p>3. En cas de blocage, contactez l'admin via l'onglet Contact.</p>
-                    </div>`;
-            break;
+    html = `<h2>Bienvenue dans votre espace</h2>
+        <div class="card">
+            <h3>Comment utiliser le bac intelligent ?</h3>
+            <p>1. Approchez votre badge du lecteur pour déverrouiller le bac.</p>
+            <p>2. Montrez le déchet à la caméra : le bon bac s'ouvrira automatiquement 🟡 Plastique – 🔵 Papier – 🟢 Verre.</p>
+            <p>3. Le bac se referme après 15 secondes.</p>
+            <p>4. Vous pouvez consulter vos déchets dans l'onglet <b>"Mon Historique"</b> du menu.</p>
+            <p>5. En cas de problème, contactez l'administrateur à cette adresse : <b>contact.smartcontainer@gmail.com</b></p>
+        </div>`;
+break;
 
         default:
             html = `<div class="card">Cette section est en cours de configuration.</div>`;
