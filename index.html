@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Container Area</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+
+    <!-- LOGIN SCREEN -->
+    <section id="login-screen" class="flex-center">
+        <div class="login-box fade-in">
+            <header class="login-header">
+                <p class="welcome-text">Espace Sécurisé</p>
+                <h1>Smart Containers Area</h1>
+            </header>
+
+            <form id="login-form" autocomplete="on">
+                <div class="input-group">
+                    <input type="text" id="username" name="username" placeholder="Identifiant" required>
+                    
+                    <div class="password-wrapper">
+                        <input type="password" id="password" name="password" placeholder="Mot de passe" required>
+                        <span id="togglePassword" class="eye-icon">👁️</span>
+                    </div>
+                </div>
+
+                <div class="login-options">
+                    <label class="remember-me">
+                        <input type="checkbox" id="remember" name="remember">
+                        <span>Se souvenir de moi</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-login">Se connecter</button>
+            </form>
+
+            <footer class="login-footer">
+                <a href="#" class="android-badge">
+                    <span class="bot-emoji">🤖</span>
+                    <span class="badge-text"><strong>Disponible sur Android</strong></span>
+                </a>
+                <div class="support-contact">
+                    <p>Un problème ?</p>
+                    <a href="mailto:contact.smartcontainer@gmail.com" class="email-link">
+                        contact.smartcontainer[at]gmail.com
+                    </a>
+                </div>
+            </footer>
+        </div>
+    </section>
+
+    <!-- APP SCREEN -->
+    <section id="app-screen" class="hidden">
+        <aside id="sidebar">
+            <div class="profile-section">
+                <div class="avatar"></div>
+                <h2 id="user-tag">Utilisateur</h2>
+            </div>
+            <nav id="menu-nav"></nav>
+            <button type="button" onclick="logout()" class="logout-btn">Déconnexion</button>
+        </aside>
+
+        <main id="content-display">
+            <h1 id="page-title">Tableau de bord</h1>
+            <div id="view-container"></div>
+        </main>
+    </section>
+
+    <script src="main.js" defer></script>
+</body>
+</html>
